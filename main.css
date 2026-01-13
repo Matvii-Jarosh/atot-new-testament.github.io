@@ -1,0 +1,450 @@
+@import url('https://fonts.googleapis.com/css2?family=Cinzel&family=EB+Garamond&family=Playfair+Display:wght@700&display=swap');
+
+body {
+  margin: 0;
+  padding: 0;
+  background: #ffffff url('./bg.jpg') center/cover fixed;
+  font-family: 'EB Garamond', serif;
+  color: #800000; 
+  min-height: 100vh;
+  line-height: 1.8;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 40px auto;
+  padding: 40px 30px;
+  background: rgba(255, 255, 255, 0.98);
+  border: 8px double #c00000;
+  border-image: url('./8e3Z0hT.jpg') 30 round; 
+  box-shadow: 0 0 40px rgba(128,0,0,0.15);
+  position: relative;
+}
+
+.container::before {
+  content: '✛';
+  position: absolute;
+  top: -35px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 70px;
+  color: #c00000;
+  text-shadow: 0 0 10px rgba(192,0,0,0.3);
+}
+
+header {
+  text-align: center;
+  padding: 40px 0 50px;
+  border-bottom: 3px double #c00000;
+  margin-bottom: 50px;
+  position: relative;
+}
+
+header::after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 250px;
+  height: 4px;
+  background: linear-gradient(to right, transparent, #ff0000, transparent);
+}
+
+h1 {
+  font-family: 'Cinzel', serif;
+  font-size: 4.5em;
+  color: #a00000; 
+  margin: 0;
+  text-shadow: 2px 2px 4px rgba(128,0,0,0.1);
+  letter-spacing: 5px;
+}
+
+h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: 2.8em;
+  color: #900000;
+  text-align: center;
+  margin: 50px 0 30px;
+  position: relative;
+  padding-bottom: 15px;
+}
+
+h2::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 120px;
+  height: 3px;
+  background: #ff0000;
+  box-shadow: 0 0 10px #ff0000;
+}
+
+nav {
+  text-align: center;
+  margin: 40px 0;
+}
+
+nav a {
+  color: #900000;
+  text-decoration: none;
+  font-size: 1.6em;
+  font-family: 'Cinzel', serif;
+  margin: 0 35px;
+  padding: 15px 35px;
+  border: 3px double #c00000;
+  background: rgba(192, 0, 0, 0.05);
+  transition: all 0.4s;
+}
+
+nav a:hover {
+  background: #c00000;
+  color: #ffffff;
+  box-shadow: 0 0 20px rgba(192, 0, 0, 0.4);
+}
+
+.book-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 25px; 
+  margin: 40px 0;
+}
+
+.book-btn {
+  padding: 20px 15px;
+  background: linear-gradient(to bottom, #ffffff, #fff0f0);
+  border: 3px double #c00000; 
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.4s;
+  font-size: 1.4em;
+  font-family: 'Cinzel', serif;
+  color: #800000;
+  box-shadow: 0 6px 15px rgba(128,0,0,0.1); 
+  position: relative;
+  min-height: 100px; 
+}
+
+.book-btn::before {
+  content: '†';
+  display: block;
+  font-size: 1.8em;
+  margin-bottom: 10px;
+  color: #ff0000;
+}
+
+.book-btn:hover {
+  transform: translateY(-6px); 
+  box-shadow: 0 15px 30px rgba(192,0,0,0.2);
+  background: linear-gradient(to bottom, #fff0f0, #ffe0e0);
+}
+
+.chapter-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  gap: 25px;
+  margin: 60px 0;
+}
+
+.chapter-btn {
+  padding: 25px;
+  background: #fff8f8;
+  border: 3px double #c00000;
+  color: #800000;
+  text-align: center;
+  cursor: pointer;
+  font-size: 1.6em;
+  transition: all 0.3s;
+  box-shadow: 0 8px 20px rgba(128,0,0,0.08);
+}
+
+.chapter-btn:hover {
+  background: #c00000;
+  color: #ffffff;
+  transform: scale(1.1);
+}
+
+.verse {
+  margin: 50px 0;
+  padding: 35px;
+  background: #ffffff;
+  border-left: 10px solid #ff0000;
+  border-right: 4px double #c00000;
+  box-shadow: 0 8px 25px rgba(128,0,0,0.08);
+  position: relative;
+}
+
+.verse-number {
+  font-size: 3em;
+  font-family: 'Cinzel', serif;
+  color: #ff0000;
+  float: left;
+  margin-right: 30px;
+  margin-top: -10px;
+  text-shadow: 1px 1px 3px rgba(128,0,0,0.1);
+}
+
+.interlinear {
+  gap: 35px;
+  margin-top: 25px;
+  clear: both;
+}
+
+.language {
+  background: #fff8f8;
+  padding: 30px;
+  margin-top: 30px;
+  border: 3px double #c00000;
+  box-shadow: 0 5px 15px rgba(128,0,0,0.05);
+}
+
+.language h3 {
+  padding-top: -25px;
+  margin: 0 0 25px 0;
+  color: #900000;
+  text-align: center;
+  font-size: 1.5em;
+  font-family: 'Cinzel', serif;
+  border-bottom: 2px solid #ff0000;
+}
+
+.text {
+  font-size: 1.4em;
+  line-height: 2.3;
+}
+
+.word-pair {
+  margin-right: 20px;
+  white-space: nowrap;
+}
+
+.original {
+  font-weight: bold;
+  color: #800000;
+}
+
+.translation {
+  color: #a00000;
+  font-style: italic;
+  font-size: 0.95em;
+}
+
+footer {
+  text-align: center;
+  padding: 60px 20px 40px;
+  color: #900000;
+  font-size: 1.1em;
+  border-top: 3px double #c00000;
+  margin-top: 100px;
+  position: relative;
+}
+
+footer::before {
+  content: '☦';
+  font-size: 2.5em;
+  color: #ff0000;
+  display: block;
+  margin-bottom: 25px;
+}
+
+.project-intro {
+  font-size: 1.6em;
+  line-height: 1.9;
+  text-align: justify;
+  margin-bottom: 1.5em;
+}
+
+.project-desc,
+.history-intro,
+.history-text,
+.history-conclusion {
+  font-size: 1.5em;
+  line-height: 1.9;
+  text-align: justify;
+  margin: 1em 0;
+}
+
+.history-conclusion {
+  margin-top: 2em;
+  font-weight: 500;
+}
+
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0,0,0,0.6);
+  backdrop-filter: blur(4px);
+}
+
+.modal-content {
+  background: #fdf6e8;
+  margin: 10% auto;
+  padding: 30px;
+  border: 4px double #8b6f47;
+  width: 90%;
+  max-width: 600px;
+  border-radius: 12px;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.4);
+  position: relative;
+}
+
+.close-btn {
+  position: absolute;
+  right: 25px;
+  top: 15px;
+  color: #8b6f47;
+  font-size: 36px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: color 0.3s;
+}
+
+.close-btn:hover,
+.close-btn:focus {
+  color: #c9a96e;
+  text-decoration: none;
+}
+
+#modalTitle {
+  text-align: center;
+  margin-bottom: 25px;
+  color: #6b4a2a;
+  font-family: 'Cinzel', serif;
+}
+
+#chapterGrid {
+  max-height: 60vh;
+  overflow-y: auto;
+  padding: 10px;
+}
+
+.russian-verse {
+  margin-bottom: 20px;
+  padding: 15px;
+  background: #fff8f8;
+  border-left: 8px solid #c00000;
+  border-radius: 0 8px 8px 0;
+  font-size: 1.45em;
+  line-height: 1.7;
+  font-family: 'EB Garamond', serif;
+  color: #400000;
+  box-shadow: 0 3px 10px rgba(192,0,0,0.08);
+}
+
+.russian-verse .verse-number {
+  font-size: 1.8em;
+  font-family: 'Cinzel', serif;
+  color: #c00000;
+  margin-right: 15px;
+  font-weight: bold;
+}
+
+.russian-text {
+  color: #300000;
+}
+
+.downloads {
+  margin-top: 80px;
+  padding: 40px 0;
+  text-align: center;
+  border-top: 3px double #c00000;
+}
+
+.downloads h2 {
+  color: #900000;
+  margin-bottom: 15px;
+}
+
+.download-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 20px;
+  margin: 30px 0;
+}
+
+.download-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 18px 25px;
+  background: #fff0f0;
+  border: 3px double #c00000;
+  border-radius: 8px;
+  color: #800000;
+  text-decoration: none;
+  font-size: 1.25em;
+  font-family: 'Cinzel', serif;
+  transition: all 0.3s;
+}
+
+.download-btn:hover {
+  background: #c00000;
+  color: white;
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(192,0,0,0.2);
+}
+
+.download-btn .file-icon {
+  font-size: 1.6em;
+}
+
+.download-btn small {
+  font-size: 0.85em;
+  opacity: 0.8;
+  margin-left: 8px;
+}
+
+.license-note {
+  font-size: 1.1em;
+  color: #600000;
+  margin-top: 30px;
+}
+
+/* Навигация по главам */
+.chapter-nav {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 30px;
+  margin: 25px 0;
+  flex-wrap: wrap;
+}
+
+.nav-btn {
+  padding: 12px 24px;
+  background: #fff0f0;
+  border: 2px solid #c00000;
+  color: #800000;
+  text-decoration: none;
+  font-size: 1.2em;
+  border-radius: 6px;
+  transition: all 0.3s;
+}
+
+.nav-btn:hover:not(.disabled) {
+  background: #c00000;
+  color: white;
+  transform: translateY(-2px);
+}
+
+.nav-btn.disabled {
+  background: #f0f0f0;
+  color: #aaa;
+  cursor: not-allowed;
+  border-color: #ccc;
+}
+
+.nav-current {
+  font-size: 1.3em;
+  color: #600000;
+  font-weight: bold;
+}

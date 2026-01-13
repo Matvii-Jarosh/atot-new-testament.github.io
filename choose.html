@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Выбор книги и главы</title>
+  <link rel="stylesheet" href="main.css">
+  <script src="nt.js"></script>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Новый Завет</h1>
+      <nav>
+        <a href="index.html">На главную</a>
+      </nav>
+    </header>
+
+    <h2>Выберите книгу</h2>
+    <div class="book-grid" id="bookGrid"></div>
+
+    <div id="chapterModal" class="modal" style="display:none;">
+      <div class="modal-content">
+        <span class="close-btn" onclick="closeModal()">&times;</span>
+        <h3 id="modalTitle">Главы книги</h3>
+        <div class="chapter-grid" id="chapterGrid"></div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const bookGrid = document.getElementById('bookGrid');
+    const modal = document.getElementById('chapterModal');
+    const modalTitle = document.getElementById('modalTitle');
+    const chapterGrid = document.getElementById('chapterGrid');
+
+    function closeModal() {
+      modal.style.display = 'none';
+      chapterGrid.innerHTML = '';
+    }
+
+    window.onclick = function(event) {
+      if (event.target === modal) {
+        closeModal();
+      }
+    }
+
+    canonicalOrder.forEach(bookName => {
+      const book = allData.books.find(b => b.name === bookName);
+      if (book) {
+        const btn = document.createElement('div');
+        btn.className = 'book-btn';
+        btn.textContent = bookDisplayNames[book.name] || book.name.replace(/_/g, ' ');
+        btn.onclick = () => {
+          modalTitle.textContent = `Главы: ${bookDisplayNames[book.name] || book.name}`;
+          chapterGrid.innerHTML = '';
+
+          const sortedChapters = [...book.chapters].sort((a, b) => a.chapter - b.chapter);
+
+          sortedChapters.forEach(ch => {
+            const chBtn = document.createElement('div');
+            chBtn.className = 'chapter-btn';
+            chBtn.textContent = ch.chapter;
+            chBtn.onclick = () => {
+              window.location.href = `bible.html?book=${book.name}&chapter=${ch.chapter}`;
+            };
+            chapterGrid.appendChild(chBtn);
+          });
+
+          modal.style.display = 'block';
+        };
+        bookGrid.appendChild(btn);
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Новый Завет</title>
+  <link rel="stylesheet" href="main.css">
+  <script src="rus.js"></script>
+  <script src="nt.js"></script>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1 id="pageTitle">Загрузка...</h1>
+      <nav>
+        <a href="index.html">Главная</a>
+        <a href="choose.html">Выбор</a>
+      </nav>
+    </header>
+
+    <div class="chapter-nav top-nav" id="topNav"></div>
+
+    <div id="content"></div>
+
+    <div class="chapter-nav bottom-nav" id="bottomNav"></div>
+  </div>
+
+<script>
+(function() {
+
+  function getUrlParams() {
+    const params = new URLSearchParams(window.location.search);
+    return {
+      book: params.get('book'),
+      chapter: parseInt(params.get('chapter'))
+    };
+  }
+
+  const { book, chapter } = getUrlParams();
+
+  if (!book || !chapter) {
+    document.getElementById('content').innerHTML =
+      '<h2 style="text-align:center;color:#8b0000;">Ошибка: не указана книга или глава</h2>' +
+      '<p style="text-align:center;">Вернитесь на <a href="choose.html">выбор книги</a></p>';
+    document.getElementById('pageTitle').textContent = 'Ошибка';
+    return;
+  }
+
+  const currentBookIndex = canonicalOrder.indexOf(book);
+  if (currentBookIndex === -1) {
+    document.getElementById('content').innerHTML =
+      '<h2 style="text-align:center;color:#8b0000;">Книга не найдена в каноническом порядке</h2>';
+    document.getElementById('pageTitle').textContent = 'Не найдено';
+    return;
+  }
+
+  const currentBookName = canonicalOrder[currentBookIndex];
+  const currentBook = allData.books.find(b => b.name === currentBookName);
+
+  if (!currentBook) {
+    document.getElementById('content').innerHTML =
+      '<h2 style="text-align:center;color:#8b0000;">Книга не найдена в данных</h2>';
+    document.getElementById('pageTitle').textContent = 'Не найдено';
+    return;
+  }
+
+  const currentChapterIndex = currentBook.chapters.findIndex(c => c.chapter === chapter);
+  const chapterData = currentBook.chapters[currentChapterIndex];
+
+  if (!chapterData) {
+    document.getElementById('content').innerHTML =
+      '<h2 style="text-align:center;color:#8b0000;">Глава не найдена</h2>' +
+      '<p style="text-align:center;">Проверьте, существует ли эта глава в данной книге.</p>';
+    document.getElementById('pageTitle').textContent = 'Не найдено';
+    return;
+  }
+
+  document.getElementById('pageTitle').textContent =
+    `${bookDisplayNames[book] || book.replace(/_/g, ' ')} ${chapter}`;
+
+  const rusBook = rusData[book] || rusData[bookDisplayNames[book]];
+  const rusChapter = rusBook?.chapters?.[chapter];
+
+  const content = document.getElementById('content');
+  const languages = [
+    { key: 'greek',  name: 'Греческий' },
+    { key: 'coptic', name: 'Коптский' },
+    { key: 'syriac', name: 'Сирийский (Пешитта)' },
+    { key: 'latin',  name: 'Латинский (Вульгата)' },
+    { key: 'geez',   name: 'Геэз (Эфиопский)' },
+    { key: 'gothic', name: 'Готский' }
+  ];
+
+  chapterData.verses.forEach(v => {
+    const verseDiv = document.createElement('div');
+    verseDiv.className = 'verse';
+
+    let russianHTML = '';
+    const rusVerseText = rusChapter?.[v.verse.toString()];
+    if (rusVerseText) {
+      russianHTML = `
+        <div class="russian-verse">
+          <span class="verse-number">${v.verse}</span>
+          <span class="russian-text">${rusVerseText}</span>
+        </div>
+      `;
+    }
+
+    let interlinearHTML = '<div class="interlinear">';
+    languages.forEach(lang => {
+      const text = v.interlinear?.[lang.key];
+      if (text && text.trim() !== '') {
+        interlinearHTML += `
+          <div class="language">
+            <h3>${lang.name}</h3>
+            <div class="text">${formatInterlinear(text)}</div>
+          </div>
+        `;
+      }
+    });
+    interlinearHTML += '</div>';
+
+    verseDiv.innerHTML = russianHTML + interlinearHTML;
+    content.appendChild(verseDiv);
+  });
+
+  const topNav = document.getElementById('topNav');
+  const bottomNav = document.getElementById('bottomNav');
+
+  function createNavButtons(prevUrl, nextUrl) {
+    let html = '';
+
+    if (prevUrl) {
+      html += `<a href="${prevUrl}" class="nav-btn prev">← Предыдущая глава</a>`;
+    } else {
+      html += `<span class="nav-btn disabled">← Предыдущая глава</span>`;
+    }
+
+    if (nextUrl) {
+      html += `<a href="${nextUrl}" class="nav-btn next">Следующая глава →</a>`;
+    } else {
+      html += `<span class="nav-btn disabled">Следующая глава →</span>`;
+    }
+
+    return html;
+  }
+
+  let prevUrl = null;
+  let nextUrl = null;
+
+  if (currentChapterIndex > 0) {
+    const prevChapter = currentBook.chapters[currentChapterIndex - 1];
+    prevUrl = `bible.html?book=${book}&chapter=${prevChapter.chapter}`;
+  }
+
+  else if (currentBookIndex > 0) {
+    const prevBookName = canonicalOrder[currentBookIndex - 1];
+    const prevBook = allData.books.find(b => b.name === prevBookName);
+    if (prevBook && prevBook.chapters.length > 0) {
+      const lastChapter = prevBook.chapters[prevBook.chapters.length - 1];
+      prevUrl = `bible.html?book=${prevBookName}&chapter=${lastChapter.chapter}`;
+    }
+  }
+
+  if (currentChapterIndex < currentBook.chapters.length - 1) {
+    const nextChapter = currentBook.chapters[currentChapterIndex + 1];
+    nextUrl = `bible.html?book=${book}&chapter=${nextChapter.chapter}`;
+  }
+
+  else if (currentBookIndex < canonicalOrder.length - 1) {
+    const nextBookName = canonicalOrder[currentBookIndex + 1];
+    const nextBook = allData.books.find(b => b.name === nextBookName);
+    if (nextBook && nextBook.chapters.length > 0) {
+      const firstChapter = nextBook.chapters[0];
+      nextUrl = `bible.html?book=${nextBookName}&chapter=${firstChapter.chapter}`;
+    }
+  }
+
+  const navHTML = createNavButtons(prevUrl, nextUrl);
+  topNav.innerHTML = navHTML;
+  bottomNav.innerHTML = navHTML;
+
+  function formatInterlinear(text) {
+    if (!text) return '';
+    const words = text
+      .split('   ')
+      .filter(w => w.trim() !== '')
+      .map(w => w.trim());
+    return words
+      .map((word, index) => {
+        return `<span class="word-pair">${word}</span>`;
+      })
+      .join(' ');
+  }
+
+})();
+</script>
+</body>
+</html>
